@@ -1,0 +1,13 @@
+{
+  "name": "popups-tech-posts-series",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon -e md -w docs -x \"npm run build\"",
+    "build": "markdown-folder-to-html"
+  },
+  "keywords": [],
+  "author": "Joaquin Oltra <joaquin@chimeces.com> (http://chimeces.com)",
+  "license": "ISC"
+}
