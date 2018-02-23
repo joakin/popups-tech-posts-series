@@ -124,6 +124,9 @@ changes:
   to webpack
 * Anecdotally, faster ResourceLoader performance by offloading file parsing and
   bundling to the node.js CLI tool watcher (`npm start`)
+  * The simpler the dependency tree, the easier it is for the RL to decide if
+    a module has been invalidated and less processing it needs to do on server
+    and client
 * We bundle `redux` and `redux-thunk` from npm, based on the [pinned
   versions][redux-deps] from `package.json`
   * `npm outdated` will show if there are new versions of the libraries
