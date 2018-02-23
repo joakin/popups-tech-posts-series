@@ -5,11 +5,11 @@
 MediaWiki via [ResourceLoader][rl-min] uses [JavaScriptMinifier][] to minimize
 JavaScript files so that their size is as small as possible.
 
-Since the minification happens in the PHP server at runtime, tradeoffs were made
-so that the server could minify in a performant way, giving up size gains for
-speed.
+Since the minification happens in the PHP server at runtime, even with a read
+through cache tradeoffs were made so that the server could minify in
+a performant way, giving up size gains for speed.
 
-The JavaScript ecosystem has continued evolving minifiers based on Node.js
+The JavaScript ecosystem has continued evolving minifiers based on node.js
 tooling that can't be used on a PHP server easily.
 
 There are gains to be had if we were to use node based minifiers and just give
@@ -48,7 +48,6 @@ See [uglifyjs-webpack-plugin][].
 
 We added UglifyJS minification via Webpack ([config][wp-config]).
 
-The results were as expected since we had done the research before hand.
 Minifying via UglifyJS brought the bundle size down from the previous version
 ~40%, gzipped ~25%.
 
