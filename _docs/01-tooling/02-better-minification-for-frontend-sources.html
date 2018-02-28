@@ -456,10 +456,59 @@
     <article id="main" class="content">
       <h2>Better minification for the frontend sources</h2>
 <h3>Intro</h3>
+<p>MediaWiki via <a href="https://www.mediawiki.org/wiki/ResourceLoader/Features#Minification">ResourceLoader</a> uses <a href="https://www.mediawiki.org/wiki/ResourceLoader/Features#JavaScriptMinifier">JavaScriptMinifier</a> to minimize
+JavaScript files so that their size is as small as possible.</p>
+<p>Since the minification happens in the PHP server at runtime, tradeoffs were made
+so that the server could minify in a performant way, giving up size gains for
+speed.</p>
+<p>The JavaScript ecosystem has continued evolving minifiers based on Node.js
+tooling that can’t be used on a PHP server easily.</p>
+<p>There are gains to be had if we were to use node based minifiers and just give
+the smallest possible bundle to ResourceLoader for serving.</p>
 <h3>Requirements</h3>
+<p>We wanted to serve as small of a payload as we can to users with the JavaScript
+files.</p>
 <h3>Solutions</h3>
+<p>Given we have introduced a build step previously, the solution seemed pretty
+straightforward.</p>
+<p>We discussed we would introduce a minification step as part of the build
+process, and then the commited assets in <code>/resources/dist</code> would be minified and
+as small as possible.</p>
+<p>We first did research and got numbers to check if there would actually be any
+gains and if it would be worth it. You can read about it here:</p>
+<ul>
+<li>Architecture design record <a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/doc/adr/0008-enable-minification-of-bundle-with-uglifyjs.md">8. Enable minification of bundle with
+UglifyJS</a></li>
+<li><a href="https://www.mediawiki.org/wiki/Extension:Popups/Minifying_assets_with_uglifyjs">mediawiki.org: Extension:Popups/Minifying assets with uglifyjs</a></li>
+</ul>
+<p>Then researched how to best introduce the minifier. As a standalone CLI we could
+run it in our now single <code>index.js</code> file, but if we leveraged other bundler
+features like multiple entry points or code splitting then the minification
+commands could become very complex.</p>
+<p>As such, we chose to integrate the minifier as a plugin to the webpack bundler.
+See <a href="https://webpack.js.org/plugins/uglifyjs-webpack-plugin/">uglifyjs-webpack-plugin</a>.</p>
 <h3>Results</h3>
+<p>We added UglifyJS minification via Webpack (<a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/webpack.config.js#L50-L71">config</a>).</p>
+<p>The results were as expected since we had done the research before hand.
+Minifying via UglifyJS brought the bundle size down from the previous version
+~40%, gzipped ~25%.</p>
+<p>Also, theoretically, with EcmaScript modules webpack with uglify can perform
+tree shaking of unused code. Webpack will mark unused exports which would then
+be removed in the production bundle by uglify. See the guide <a href="https://webpack.js.org/guides/tree-shaking/#minify-the-output">Tree
+shaking</a>.</p>
 <h3>Problems</h3>
+<p>Initially we had to do some research to instruct ResourceLoader to not apply
+minification to this already minified files. What we wanted was to avoid it so
+that the source maps comment would be preserved, and then we would have source
+maps on the production version of the code.</p>
+<p>In the end, we had to give up, and ended up <a href="https://github.com/wikimedia/mediawiki-extensions-Popups/commit/14e78466b234f0cfc700e415b65ffa3a2ca05ac7">removing the banner</a>
+as it interfered with the minification of other modules in production, but we
+still have source maps in development.</p>
+<h3>Conclusions</h3>
+<p>This was a pretty straight forward addition that brought us benefits with little
+cost. It was enabled by the change to introduce a build step.</p>
+<p>The gain in size is not super significant given how small the JS code base is,
+but if applied to bigger code bases we could get great improvements for free.</p>
 
     </article>
   </div>
