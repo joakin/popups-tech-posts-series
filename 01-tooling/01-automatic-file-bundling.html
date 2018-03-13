@@ -466,7 +466,7 @@ structured has a big cost on the project’s quality, development and maintenanc
 <h4>Application JavaScript sources</h4>
 <p>The order in which these files needs to be loaded so that all dependencies are
 set properly then needs to be <a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/398ffb0e435f61133f6478f306ef266e147c9dea/extension.json#L75-L112">manually specified in
-<code>extension.json</code></a> by file name.  As such, there are two sources
+<code>extension.json</code></a> by file name. As such, there are two sources
 of truth:</p>
 <ul>
 <li>The configuration that specifies some order of files,</li>
@@ -568,7 +568,13 @@ since file order is automatically sorted out</li>
 <li>Source maps in development that point to the original modules in <code>src/</code> thanks
 to webpack</li>
 <li>Anecdotally, faster ResourceLoader performance by offloading file parsing and
-bundling to the node.js CLI tool watcher (<code>npm start</code>)</li>
+bundling to the node.js CLI tool watcher (<code>npm start</code>)
+<ul>
+<li>The simpler the dependency tree, the easier it is for the RL to decide if
+a module has been invalidated and less processing it needs to do on server
+and client</li>
+</ul>
+</li>
 <li>We bundle <code>redux</code> and <code>redux-thunk</code> from npm, based on the <a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/package.json#L31-L32">pinned
 versions</a> from <code>package.json</code>
 <ul>
