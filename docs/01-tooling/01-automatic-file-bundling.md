@@ -15,7 +15,7 @@ structured has a big cost on the project's quality, development and maintenance.
 
 The order in which these files needs to be loaded so that all dependencies are
 set properly then needs to be [manually specified in
-`extension.json`][scripts-order] by file name.  As such, there are two sources
+`extension.json`][scripts-order] by file name. As such, there are two sources
 of truth:
 
 * The configuration that specifies some order of files,
@@ -62,7 +62,7 @@ For developing JavaScript files for the front-end:
 * Moving code and files should be low cost and not trigger runtime errors in
   production if the dependencies are not properly specified
 * If possible, it should be easier to tap into npm libraries for our front-end
-  needs, and check for updates (see [related discussion][T107561])
+  needs, and check for updates (see [related discussion][t107561])
 
 ### Solutions
 
@@ -156,8 +156,8 @@ We have discussed in phabricator and in wikitech-l:
 
 * [[Wikitech-l] How does a build process look like for a mediawiki extension
   repository?][build-process-mail]
-* [T158980: Generate compiled assets from continuous integration][T158980]
- 
+* [T158980: Generate compiled assets from continuous integration][t158980]
+
 But sadly didn't get to any concrete steps. If you think you can help with this
 issue we would really appreciate your help, as we would like to help other
 projects, people and teams be able to use build steps in their extensions.
@@ -183,10 +183,9 @@ We hope to work together in standardizing some sort of CI + deploy process
 so that projects on the MediaWiki ecosystem can leverage build steps to improve
 their workflows and leverage powerful tools.
 
-
-[ResourceLoader]: https://www.mediawiki.org/wiki/ResourceLoader
-[T107561]: https://phabricator.wikimedia.org/T107561
-[T158980]: https://phabricator.wikimedia.org/T158980
+[resourceloader]: https://www.mediawiki.org/wiki/ResourceLoader
+[t107561]: https://phabricator.wikimedia.org/T107561
+[t158980]: https://phabricator.wikimedia.org/T158980
 [build scripts]: https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/package.json#L4-L5
 [build-process-mail]: https://lists.wikimedia.org/pipermail/wikitech-l/2017-June/088264.html
 [check-built-assets]: https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/package.json#L11

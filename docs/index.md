@@ -18,4 +18,4 @@ Table of contents:
 `TODO`
 
 [popups]: https://www.mediawiki.org/wiki/Extension:Popups
-[MediaWiki]: https://www.mediawiki.org/wiki/MediaWiki
+[mediawiki]: https://www.mediawiki.org/wiki/MediaWiki

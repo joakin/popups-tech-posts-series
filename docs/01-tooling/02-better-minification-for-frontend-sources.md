@@ -76,7 +76,7 @@ The gain in size is not super significant given how small the JS code base is,
 but if applied to bigger code bases we could get great improvements for free.
 
 [rl-min]: https://www.mediawiki.org/wiki/ResourceLoader/Features#Minification
-[JavaScriptMinifier]: https://www.mediawiki.org/wiki/ResourceLoader/Features#JavaScriptMinifier
+[javascriptminifier]: https://www.mediawiki.org/wiki/ResourceLoader/Features#JavaScriptMinifier
 [uglify-js]: https://github.com/mishoo/UglifyJS2
 [adr-8]: https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/doc/adr/0008-enable-minification-of-bundle-with-uglifyjs.md
 [mw-min]: https://www.mediawiki.org/wiki/Extension:Popups/Minifying_assets_with_uglifyjs
