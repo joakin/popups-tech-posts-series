@@ -466,8 +466,8 @@ structured has a big cost on the project’s quality, development and maintenanc
 <h4>Application JavaScript sources</h4>
 <p>The order in which these files needs to be loaded so that all dependencies are
 set properly then needs to be <a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/398ffb0e435f61133f6478f306ef266e147c9dea/extension.json#L75-L112">manually specified in
-<code>extension.json</code></a> by file name. As such, there are two sources
-of truth:</p>
+<code>extension.json</code></a> by file name. As such, there are two sources of
+truth:</p>
 <ul>
 <li>The configuration that specifies some order of files,</li>
 <li>And the source code that implicitly uses files in some order.</li>
@@ -507,11 +507,11 @@ production if the dependencies are not properly specified</li>
 <li>If possible, it should be easier to tap into npm libraries for our front-end
 needs, and check for updates (see <a href="https://phabricator.wikimedia.org/T107561">related discussion</a>)</li>
 </ul>
-<h3>Solutions</h3>
+<h3>Solution</h3>
 <p>We considered our options, and after discussion among the engineers, we decided
 that:</p>
 <ul>
-<li>We would use a node.js based file bundler (<a href="https://webpack.js.org/">webpack</a>), in order to:
+<li>We would use a Node.js based file bundler (<a href="https://webpack.js.org/">webpack</a>), in order to:
 <ul>
 <li>automatically bundle our JS sources with a single source of truth for
 intra-module dependencies and asset load order (the source code itself via
@@ -530,8 +530,8 @@ specify other dependencies (images, i18n messages, styles)</li>
 <p>You can read some more details in the architecture design record <a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/master/doc/adr/0004-use-webpack.md">4. Use
 webpack</a> that we wrote when we discussed this in the team.</p>
 <h4>Why webpack and not <code>&lt;my-favorite-tool&gt;</code>?</h4>
-<p>We looked at the ecosystem of bundlers at the time, and this is a summary of
-our evaluation:</p>
+<p>We looked at the ecosystem of bundlers at the time, and this is a summary of our
+evaluation:</p>
 <ul>
 <li>Browserify: Great tool, shrinking community and support in favor of others</li>
 <li>Rollup: Great tool, specialized in bundling code for producing libraries, not
@@ -549,7 +549,7 @@ from this tool in the future if it becomes a problem.</p>
 <li>The production assets get built into <a href="https://github.com/wikimedia/mediawiki-extensions-Popups/tree/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/resources/dist">/resources/dist</a> to be served by
 ResourceLoader</li>
 <li>We added a CI step in the <code>npm-test</code> job that checks built assets have been
-commited and up to date (<a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/package.json#L11">check-built-assets</a>)</li>
+committed and up to date (<a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/package.json#L11">check-built-assets</a>)</li>
 <li>Added a precommit hook that automatically runs the build step and adds the
 built assets (<a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/package.json#L13">precommit</a>)</li>
 </ul>
@@ -568,11 +568,11 @@ since file order is automatically sorted out</li>
 <li>Source maps in development that point to the original modules in <code>src/</code> thanks
 to webpack</li>
 <li>Anecdotally, faster ResourceLoader performance by offloading file parsing and
-bundling to the node.js CLI tool watcher (<code>npm start</code>)
+bundling to the Node.js CLI tool watcher (<code>npm start</code>)
 <ul>
-<li>The simpler the dependency tree, the easier it is for the RL to decide if
-a module has been invalidated and less processing it needs to do on server
-and client</li>
+<li>The simpler the dependency tree, the easier it is for the RL to decide if a
+module has been invalidated and less processing it needs to do on server and
+client</li>
 </ul>
 </li>
 <li>We bundle <code>redux</code> and <code>redux-thunk</code> from npm, based on the <a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/package.json#L31-L32">pinned
@@ -582,13 +582,13 @@ versions</a> from <code>package.json</code>
 <li><code>npm update redux</code> will update the library, and be bundled in our sources
 when we <code>npm run build</code></li>
 <li>The libraries passed <a href="https://phabricator.wikimedia.org/T151902">security review</a>, the hash is in
-<code>package-lock.json</code> and the build is verified independently in CI by
-a jenkins job from the npm version</li>
+<code>package-lock.json</code> and the build is verified independently in CI by a
+jenkins job from the npm version</li>
 </ul>
 </li>
-<li>By using standard module systems, it enables us to use our sources in node.js,
+<li>By using standard module systems, it enables us to use our sources in Node.js,
 which unlocks the possibility to run unit tests for the frontend code in
-node.js for faster test runs and feedback loop for developers</li>
+Node.js for faster test runs and feedback loop for developers</li>
 </ul>
 <h3>Problems</h3>
 <p>The approach is a bit controversial since MediaWiki extensions usually don’t
@@ -622,8 +622,8 @@ streamlined solution.</p>
 allowing us to work more effectively on our JS files. We recommend it if you
 have many JS files or ResourceLoader modules, and the order and dependencies are
 causing you headaches.</p>
-<p>We hope to work together in standardizing some sort of CI + deploy process
-so that projects on the MediaWiki ecosystem can leverage build steps to improve
+<p>We hope to work together in standardizing some sort of CI + deploy process so
+that projects on the MediaWiki ecosystem can leverage build steps to improve
 their workflows and leverage powerful tools.</p>
 
     </article>
