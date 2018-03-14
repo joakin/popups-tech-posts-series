@@ -6,10 +6,10 @@ MediaWiki via [ResourceLoader][rl-min] uses [JavaScriptMinifier][] to minimize
 JavaScript files so that their size is as small as possible.
 
 Since the minification happens in the PHP server at runtime, even with a read
-through cache tradeoffs were made so that the server could minify in
-a performant way, giving up size gains for speed.
+through cache tradeoffs were made so that the server could minify in a
+performant way, giving up size gains for speed.
 
-The JavaScript ecosystem has continued evolving minifiers based on node.js
+The JavaScript ecosystem has continued evolving minifiers based on Node.js
 tooling that can't be used on a PHP server easily.
 
 There are gains to be had if we were to use node based minifiers and just give
@@ -17,10 +17,10 @@ the smallest possible bundle to ResourceLoader for serving.
 
 ### Requirements
 
-We wanted to serve as small of a payload as we can to users with the JavaScript
-files.
+Payload served can to users (specifically, JavaScript files), should be as small
+as possible.
 
-### Solutions
+### Solution
 
 Given we have introduced a build step previously, the solution seemed pretty
 straightforward.
