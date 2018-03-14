@@ -15,8 +15,8 @@ structured has a big cost on the project's quality, development and maintenance.
 
 The order in which these files needs to be loaded so that all dependencies are
 set properly then needs to be [manually specified in
-`extension.json`][scripts-order] by file name. As such, there are two sources
-of truth:
+`extension.json`][scripts-order] by file name. As such, there are two sources of
+truth:
 
 * The configuration that specifies some order of files,
 * And the source code that implicitly uses files in some order.
@@ -64,12 +64,12 @@ For developing JavaScript files for the front-end:
 * If possible, it should be easier to tap into npm libraries for our front-end
   needs, and check for updates (see [related discussion][t107561])
 
-### Solutions
+### Solution
 
 We considered our options, and after discussion among the engineers, we decided
 that:
 
-* We would use a node.js based file bundler ([webpack][]), in order to:
+* We would use a Node.js based file bundler ([webpack][]), in order to:
   * automatically bundle our JS sources with a single source of truth for
     intra-module dependencies and asset load order (the source code itself via
     import/export statements)
@@ -87,8 +87,8 @@ webpack][use-webpack] that we wrote when we discussed this in the team.
 
 #### Why webpack and not `<my-favorite-tool>`?
 
-We looked at the ecosystem of bundlers at the time, and this is a summary of
-our evaluation:
+We looked at the ecosystem of bundlers at the time, and this is a summary of our
+evaluation:
 
 * Browserify: Great tool, shrinking community and support in favor of others
 * Rollup: Great tool, specialized in bundling code for producing libraries, not
@@ -107,7 +107,7 @@ from this tool in the future if it becomes a problem.
 * The production assets get built into [/resources/dist][dist] to be served by
   ResourceLoader
 * We added a CI step in the `npm-test` job that checks built assets have been
-  commited and up to date ([check-built-assets][check-built-assets])
+  committed and up to date ([check-built-assets][check-built-assets])
 * Added a precommit hook that automatically runs the build step and adds the
   built assets ([precommit][precommit])
 
@@ -123,21 +123,21 @@ changes:
 * Source maps in development that point to the original modules in `src/` thanks
   to webpack
 * Anecdotally, faster ResourceLoader performance by offloading file parsing and
-  bundling to the node.js CLI tool watcher (`npm start`)
-  * The simpler the dependency tree, the easier it is for the RL to decide if
-    a module has been invalidated and less processing it needs to do on server
-    and client
+  bundling to the Node.js CLI tool watcher (`npm start`)
+  * The simpler the dependency tree, the easier it is for the RL to decide if a
+    module has been invalidated and less processing it needs to do on server and
+    client
 * We bundle `redux` and `redux-thunk` from npm, based on the [pinned
   versions][redux-deps] from `package.json`
   * `npm outdated` will show if there are new versions of the libraries
   * `npm update redux` will update the library, and be bundled in our sources
     when we `npm run build`
   * The libraries passed [security review][redux-security], the hash is in
-    `package-lock.json` and the build is verified independently in CI by
-    a jenkins job from the npm version
-* By using standard module systems, it enables us to use our sources in node.js,
+    `package-lock.json` and the build is verified independently in CI by a
+    jenkins job from the npm version
+* By using standard module systems, it enables us to use our sources in Node.js,
   which unlocks the possibility to run unit tests for the frontend code in
-  node.js for faster test runs and feedback loop for developers
+  Node.js for faster test runs and feedback loop for developers
 
 ### Problems
 
@@ -179,8 +179,8 @@ allowing us to work more effectively on our JS files. We recommend it if you
 have many JS files or ResourceLoader modules, and the order and dependencies are
 causing you headaches.
 
-We hope to work together in standardizing some sort of CI + deploy process
-so that projects on the MediaWiki ecosystem can leverage build steps to improve
+We hope to work together in standardizing some sort of CI + deploy process so
+that projects on the MediaWiki ecosystem can leverage build steps to improve
 their workflows and leverage powerful tools.
 
 [resourceloader]: https://www.mediawiki.org/wiki/ResourceLoader
