@@ -172,7 +172,7 @@ As an interim solution it works and allows us to move along, but if we want to
 adopt this process for other projects we would really like to have a more
 streamlined solution.
 
-### Conclusion
+### Conclusions
 
 This change has worked very well for us, decreasing the cognitive load and
 allowing us to work more effectively on our JS files. We recommend it if you

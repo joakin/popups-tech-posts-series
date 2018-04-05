@@ -3,29 +3,35 @@
 ### Intro
 
 For testing frontend code, MediaWiki provides a browser based QUnit setup. For
-running the tests, you have to spin up MediaWiki, and load
-Special:JavaScriptTest in your browser, which will run all the QUnit tests for
-all the extensions and MediaWiki itself.
-
-From then on, you can filter by module or string, hide passed tests, and a few
-other things like select to load the assets in production mode or development
-mode (`debug=true`).
+running the tests, you have to spin up MediaWiki, usually through vagrant, and
+load Special:JavaScriptTest in your browser, which will run all the QUnit tests
+for all the extensions and MediaWiki itself. From then on, you can filter by
+module or string, hide passed tests, and a few other things like select to load
+the assets in production mode or development mode (`debug=true`).
 
 Like any testing strategy, this setup comes with tradeoffs. Specifically, there
-are a couple that we have had problems with:
+are a couple of big problems that we have had when working on the frontend code,
+which we set out to address when working in `Extension:Popups`:
+
+1.  Tests take a long time to run
+2.  It is very hard to write isolated unit tests
 
 #### Tests usually take a long time to run
 
-With this setup, they have to go through to the MediaWiki server,
-ResourceLoader, and then run in the browser. This is specially noticeable in
+With this setup, tests have to go through to the MediaWiki server,
+ResourceLoader, and then run in the browser. This is especially noticeable in
 development mode, which we often enable to get readable stack traces and error
 messages on test failures, but makes the test run take a lot longer.
 
-As a result of this, writing tests is costlier than it should, which discourages
-developers to write and run tests, and over time ends up affecting the quality
-of our code and QUnit test suites. It also puts significant barriers to TDD
-style workflows, which rely on constantly running tests and require a fast
-feedback cycle with the developer.
+There are also big startup costs, for powering up vagrant and the whole system.
+
+As a result of this, writing tests is costlier than it should be, which
+discourages developers to write and run tests, and over time ends up affecting
+the quality of our code and QUnit test suites. It also puts significant barriers
+to TDD style workflows, which rely on constantly running tests and require a
+fast feedback cycle with the developer.
+
+`TODO: Add image or video`
 
 #### It is very hard to write isolated unit tests
 
@@ -45,15 +51,28 @@ most of them are big integration tests, which makes them slower to run. All of
 this adds up to the previous point, making it an even slower moving setup for
 writing tests, with the same outcomes.
 
+`TODO: Find and add an example snippet with the boilerplate required for test set up and tear down.`
+
 ### Requirements
+
+Given that:
+
+* Untested code is unmaintained
+* Tests that run slow are never run
+* Monolithic integration tests are slow to write, read, modify, debug, and
+  execute; isolated unit tests are the opposite
+* Code that is difficult to test in isolation may be indicative of functional
+  concerns
+* Efficient tests greatly contribute to efficient development
 
 We need a way to write tests for our frontend JavaScript that:
 
 * Encourage and enforce isolation
   * Without global state or a full MediaWiki environment running
 * Start up and run the tests very fast
-* Re-runs tests when our source files change automatically, without having to
+* Re-run tests when our source files change automatically, without having to
   wait for the developer to go to the browser and run the tests
+* Indicate clearly when a failure occurs and where it is
 
 Additional considerations:
 
@@ -86,7 +105,7 @@ We created a small wrapper around QUnit -[mw-node-qunit][]- that we've been
 using, which essentially gives us a CLI tool that sets up QUnit with jsdom,
 jQuery, and Sinon so that it was easier to migrate the QUnit tests in.
 
-It was quite straight forward to migrate, specially since most of the
+It was quite straight forward to migrate, especially since most of the
 Extension:Popups tests from the refactor had been written in a TDD fashion, and
 were already mostly isolated.
 
@@ -136,15 +155,29 @@ Another extra thing that we have been doing has been maintaining
 Making sure our wrapper works well with qunitjs, and updating the dependency
 versions to not fall behind and leverage improvements on the libraries.
 
-We also expect some more work on the wrapper as [QUnit Plugins (or "Setup Step")
-in CLI \#1221][1221] gets worked on, or when [CLI: Implement --require option
-\#1271][1271] gets released, to simplify our implementation and be able to
+`TODO: Remove this paragraph ⬇️ once mw-node-qunit is fixed`. We also expect
+some more work on the wrapper as to simplify our implementation and be able to
 leverage the superior QUnit.js tap output and the rest of the CLI options like
 filters. The good thing is that the CLI wrapper should be useful for any
 Wikimedia projects as is.
 
 We will also be looking into moving the repository to the Wikimedia organization
-in github if other teams or projects adopt this testing strategy.
+in GitHub if other teams or projects adopt this testing strategy.
+
+### Conclusions
+
+This change has worked really well for us. We are able to run our tests really
+fast, even without vagrant running. The environment is isolated and really good
+for unit testing. The CLI wrapper had the specific helpers to ease migration
+from the existing tests, so it was fairly painless to switch.
+
+Because of all of these, the extension has excellent code coverage, developers
+have an easier time contributing tests, and doing TDD is feasible. There is less
+uncertainty when refactoring and adding features, and the codebase is easy to
+work with. A big part of it is because of the unit testing story.
+
+We're looking forward to adopting the same approach in other repositories and
+helping others do the same.
 
 [adr-7]: https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/doc/adr/0007-prefer-running-qunit-tests-in-node-js.md
 [qunit]: https://www.npmjs.com/package/qunitjs
