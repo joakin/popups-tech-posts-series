@@ -457,24 +457,30 @@
       <h2>Fast and isolated JS unit tests</h2>
 <h3>Intro</h3>
 <p>For testing frontend code, MediaWiki provides a browser based QUnit setup. For
-running the tests, you have to spin up MediaWiki, and load
-Special:JavaScriptTest in your browser, which will run all the QUnit tests for
-all the extensions and MediaWiki itself.</p>
-<p>From then on, you can filter by module or string, hide passed tests, and a few
-other things like select to load the assets in production mode or development
-mode (<code>debug=true</code>).</p>
+running the tests, you have to spin up MediaWiki, usually through vagrant, and
+load Special:JavaScriptTest in your browser, which will run all the QUnit tests
+for all the extensions and MediaWiki itself. From then on, you can filter by
+module or string, hide passed tests, and a few other things like select to load
+the assets in production mode or development mode (<code>debug=true</code>).</p>
 <p>Like any testing strategy, this setup comes with tradeoffs. Specifically, there
-are a couple that we have had problems with:</p>
+are a couple of big problems that we have had when working on the frontend code,
+which we set out to address when working in <code>Extension:Popups</code>:</p>
+<ol>
+<li>Tests take a long time to run</li>
+<li>It is very hard to write isolated unit tests</li>
+</ol>
 <h4>Tests usually take a long time to run</h4>
-<p>With this setup, they have to go through to the MediaWiki server,
-ResourceLoader, and then run in the browser. This is specially noticeable in
+<p>With this setup, tests have to go through to the MediaWiki server,
+ResourceLoader, and then run in the browser. This is especially noticeable in
 development mode, which we often enable to get readable stack traces and error
 messages on test failures, but makes the test run take a lot longer.</p>
-<p>As a result of this, writing tests is costlier than it should, which discourages
-developers to write and run tests, and over time ends up affecting the quality
-of our code and QUnit test suites. It also puts significant barriers to TDD
-style workflows, which rely on constantly running tests and require a fast
-feedback cycle with the developer.</p>
+<p>There are also big startup costs, for powering up vagrant and the whole system.</p>
+<p>As a result of this, writing tests is costlier than it should be, which
+discourages developers to write and run tests, and over time ends up affecting
+the quality of our code and QUnit test suites. It also puts significant barriers
+to TDD style workflows, which rely on constantly running tests and require a
+fast feedback cycle with the developer.</p>
+<p><code>TODO: Add image or video</code></p>
 <h4>It is very hard to write isolated unit tests</h4>
 <p>In this environment, the real MediaWiki, global state, and the browser
 environment are available. As a result, tests are written often as integration
@@ -489,7 +495,18 @@ makes them very brittle or overly verbose because of the extensive mocking, and
 most of them are big integration tests, which makes them slower to run. All of
 this adds up to the previous point, making it an even slower moving setup for
 writing tests, with the same outcomes.</p>
+<p><code>TODO: Find and add an example snippet with the boilerplate required for test set up and tear down.</code></p>
 <h3>Requirements</h3>
+<p>Given that:</p>
+<ul>
+<li>Untested code is unmaintained</li>
+<li>Tests that run slow are never run</li>
+<li>Monolithic integration tests are slow to write, read, modify, debug, and
+execute; isolated unit tests are the opposite</li>
+<li>Code that is difficult to test in isolation may be indicative of functional
+concerns</li>
+<li>Efficient tests greatly contribute to efficient development</li>
+</ul>
 <p>We need a way to write tests for our frontend JavaScript that:</p>
 <ul>
 <li>Encourage and enforce isolation
@@ -498,8 +515,9 @@ writing tests, with the same outcomes.</p>
 </ul>
 </li>
 <li>Start up and run the tests very fast</li>
-<li>Re-runs tests when our source files change automatically, without having to
+<li>Re-run tests when our source files change automatically, without having to
 wait for the developer to go to the browser and run the tests</li>
+<li>Indicate clearly when a failure occurs and where it is</li>
 </ul>
 <p>Additional considerations:</p>
 <ul>
@@ -532,7 +550,7 @@ as it made sense since they used the MediaWiki environment more heavily.</p>
 <p>We created a small wrapper around QUnit -<a href="https://github.com/joakin/mw-node-qunit/">mw-node-qunit</a>- that we’ve been
 using, which essentially gives us a CLI tool that sets up QUnit with jsdom,
 jQuery, and Sinon so that it was easier to migrate the QUnit tests in.</p>
-<p>It was quite straight forward to migrate, specially since most of the
+<p>It was quite straight forward to migrate, especially since most of the
 Extension:Popups tests from the refactor had been written in a TDD fashion, and
 were already mostly isolated.</p>
 <p>There was a bit of figuring out because eventually some pieces of code use
@@ -571,14 +589,24 @@ dependencies explicit.</p>
 <a href="https://github.com/joakin/mw-node-qunit/"><code>mw-node-qunit</code></a>, which has taken a bit of additional time.
 Making sure our wrapper works well with qunitjs, and updating the dependency
 versions to not fall behind and leverage improvements on the libraries.</p>
-<p>We also expect some more work on the wrapper as <a href="https://github.com/qunitjs/qunit/issues/1221">QUnit Plugins (or “Setup Step”)
-in CLI #1221</a> gets worked on, or when <a href="https://github.com/qunitjs/qunit/pull/1271">CLI: Implement --require option
-#1271</a> gets released, to simplify our implementation and be able to
+<p><code>TODO: Remove this paragraph ⬇️ once mw-node-qunit is fixed</code>. We also expect
+some more work on the wrapper as to simplify our implementation and be able to
 leverage the superior QUnit.js tap output and the rest of the CLI options like
 filters. The good thing is that the CLI wrapper should be useful for any
 Wikimedia projects as is.</p>
 <p>We will also be looking into moving the repository to the Wikimedia organization
-in github if other teams or projects adopt this testing strategy.</p>
+in GitHub if other teams or projects adopt this testing strategy.</p>
+<h3>Conclusions</h3>
+<p>This change has worked really well for us. We are able to run our tests really
+fast, even without vagrant running. The environment is isolated and really good
+for unit testing. The CLI wrapper had the specific helpers to ease migration
+from the existing tests, so it was fairly painless to switch.</p>
+<p>Because of all of these, the extension has excellent code coverage, developers
+have an easier time contributing tests, and doing TDD is feasible. There is less
+uncertainty when refactoring and adding features, and the codebase is easy to
+work with. A big part of it is because of the unit testing story.</p>
+<p>We’re looking forward to adopting the same approach in other repositories and
+helping others do the same.</p>
 
     </article>
   </div>
