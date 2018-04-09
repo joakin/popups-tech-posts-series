@@ -9,5 +9,8 @@
   },
   "keywords": [],
   "author": "Joaquin Oltra <joaquin@chimeces.com> (http://chimeces.com)",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "markdown-folder-to-html": "^1.6.0"
+  }
 }
