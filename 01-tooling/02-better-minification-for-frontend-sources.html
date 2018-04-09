@@ -267,12 +267,21 @@
       font-size: 0.9em;
     }
 
+    a,
+    a * {
+      text-decoration: none;
+      color: #2483cc;
+    }
+
+    a:visited {
+      text-decoration: none;
+      color: #2483cc;
+    }
+
     /* All anchors inside the menu should be styled like this. */
 
     #menu a {
       display: block;
-      text-decoration: none;
-      color: #2483cc;
       padding: 0.5em 0.5em;
     }
 
@@ -319,8 +328,9 @@
       color: #000;
     }
 
-    #menu ul ul li.heading {
-      margin: 1em 0.5em 0;
+    #menu li.heading>* {
+      padding: 0.5em;
+      display: block;
     }
 
     #menu li.heading a {
@@ -352,8 +362,8 @@
     }
 
     .menu-link:hover {
-      background: #eee/* #f4f4f4 * 0.8 */
-      ;
+      background: /* #f4f4f4 * 0.8 */
+      #eee;
     }
 
     .menu-link span {
@@ -437,20 +447,16 @@
     <nav id="menu">
       <ul>
 <li><a class="" href="../index.html">index</a></li>
-<li class="heading">tooling</li>
+<li class="heading"><span>tooling</span></li>
 <ul>
 <li><a class="" href="01-automatic-file-bundling.html">automatic file bundling</a></li>
 <li><a class="active" href="02-better-minification-for-frontend-sources.html">better minification for frontend sources</a></li>
 <li><a class="" href="03-fast-and-isolated-JS-unit-tests.html">fast and isolated JS unit tests</a></li>
 </ul>
-<li class="heading">code patterns & architecture</li>
+<li class="heading"><span>code patterns & architecture</span></li>
 <ul>
-<li><a class="" href="../02-code-patterns-&-architecture/01-product-requirements.html">product requirements</a></li>
-<li><a class="" href="../02-code-patterns-&-architecture/02-problems-with-the-beta-version.-Why-rewrite?.html">problems with the beta version. Why rewrite?</a></li>
-<li><a class="" href="../02-code-patterns-&-architecture/03-solutions-and-problems.html">solutions and problems</a></li>
+<li><a class="" href="../02-code-patterns-&-architecture/01-factory-functions.html">factory functions</a></li>
 </ul>
-<li><a class="" href="../03-testing.html">testing</a></li>
-<li><a class="" href="../04-conclusions.html">conclusions</a></li>
 </ul>
     </nav>
     <article id="main" class="content">
