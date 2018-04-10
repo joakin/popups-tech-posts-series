@@ -469,6 +469,7 @@ global scope, defined by other files.</p>
 JavaScript sources, and the use of JavaScript libraries from the OSS ecosystem.
 Organizing the code, trying to keep it maintainable, and understanding how it is
 structured has a big cost on the project’s quality, development and maintenance.</p>
+<p><img src="./01-globals.png" alt="JS code defining global variables all around"></p>
 <h4>Application JavaScript sources</h4>
 <p>The order in which these files needs to be loaded so that all dependencies are
 set properly then needs to be <a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/398ffb0e435f61133f6478f306ef266e147c9dea/extension.json#L75-L112">manually specified in
@@ -486,6 +487,7 @@ JavaScript files that depend on each other. Having to manually understand that
 dependency graph based on the list of dependencies on a JSON file and how the
 files use, define, or re-define global variables from or for other files, and
 managing a module’s internal state, can be quite of a headache.</p>
+<p><img src="./01-resourcemodule-config.png" alt="JSON configuration skyrockets as soon as you start doing anything interesting in the frontend"></p>
 <p>Changes to the source code, moving lines in the same file, refactoring code to
 other and new files, adding new code that uses other files, removing code, …</p>
 <p>All of these become really hard really quickly. In the end, <strong>organizing your
@@ -535,6 +537,7 @@ specify other dependencies (images, i18n messages, styles)</li>
 </ul>
 <p>You can read some more details in the architecture design record <a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/master/doc/adr/0004-use-webpack.md">4. Use
 webpack</a> that we wrote when we discussed this in the team.</p>
+<p><img src="./01-sources-with-esmodules.png" alt="Sources with ES modules"></p>
 <h4>Why webpack and not <code>&lt;my-favorite-tool&gt;</code>?</h4>
 <p>We looked at the ecosystem of bundlers at the time, and this is a summary of our
 evaluation:</p>
@@ -547,6 +550,7 @@ ecosystem of tools</li>
 </ul>
 <p>We are not married to, or using any webpack specific features, so we can migrate
 from this tool in the future if it becomes a problem.</p>
+<p><img src="./01-webpack-build.gif" alt="Webpack production build"></p>
 <h3>Results</h3>
 <ul>
 <li>We introduced <code>webpack</code> (<a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/webpack.config.js">config</a>) and <a href="https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/package.json#L4-L5">build scripts</a></li>
@@ -595,7 +599,10 @@ jenkins job from the npm version</li>
 <li>By using standard module systems, it enables us to use our sources in Node.js,
 which unlocks the possibility to run unit tests for the frontend code in
 Node.js for faster test runs and feedback loop for developers</li>
+<li>Easy introspection of the frontend code with tools like
+<a href="https://www.npmjs.com/package/source-map-explorer">source-map-explorer</a> and <a href="https://www.npmjs.com/package/webpack-bundle-analyzer">webpack-bundle-analyzer</a></li>
 </ul>
+<p><img src="./01-source-map-explorer.png" alt="source-map-explorer view"></p>
 <h3>Problems</h3>
 <p>The approach is a bit controversial since MediaWiki extensions usually don’t
 have build steps, so there was no easy setup for CI and the deployment pipeline
