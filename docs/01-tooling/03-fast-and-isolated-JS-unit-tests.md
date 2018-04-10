@@ -31,7 +31,7 @@ the quality of our code and QUnit test suites. It also puts significant barriers
 to TDD style workflows, which rely on constantly running tests and require a
 fast feedback cycle with the developer.
 
-`TODO: Add image or video`
+![Running MobileFrontend's tests](./03-special-javascripttest.gif)
 
 #### It is very hard to write isolated unit tests
 
@@ -51,7 +51,7 @@ most of them are big integration tests, which makes them slower to run. All of
 this adds up to the previous point, making it an even slower moving setup for
 writing tests, with the same outcomes.
 
-`TODO: Find and add an example snippet with the boilerplate required for test set up and tear down.`
+![Over stubbing and mocking and integration tests are common](./03-stubbing.png)
 
 ### Requirements
 
@@ -121,6 +121,8 @@ With this setup, tests run quite fast, and it is feasible (and we do) run them
 in watch mode while developing, giving you fast feedback and running your code
 on save, all from the terminal/editor.
 
+![Test run in the CLI](./03-node-qunit.gif)
+
 The environment doesn't have any global state, or implicit knowledge of
 MediaWiki, which forces us to write properly isolated tests that don't rely on
 implicit behavior or state.
@@ -154,12 +156,6 @@ Another extra thing that we have been doing has been maintaining
 [`mw-node-qunit`][mw-node-qunit], which has taken a bit of additional time.
 Making sure our wrapper works well with qunitjs, and updating the dependency
 versions to not fall behind and leverage improvements on the libraries.
-
-`TODO: Remove this paragraph ⬇️ once mw-node-qunit is fixed`. We also expect
-some more work on the wrapper as to simplify our implementation and be able to
-leverage the superior QUnit.js tap output and the rest of the CLI options like
-filters. The good thing is that the CLI wrapper should be useful for any
-Wikimedia projects as is.
 
 We will also be looking into moving the repository to the Wikimedia organization
 in GitHub if other teams or projects adopt this testing strategy.
