@@ -11,6 +11,8 @@ JavaScript sources, and the use of JavaScript libraries from the OSS ecosystem.
 Organizing the code, trying to keep it maintainable, and understanding how it is
 structured has a big cost on the project's quality, development and maintenance.
 
+![JS code defining global variables all around](./01-globals.png)
+
 #### Application JavaScript sources
 
 The order in which these files needs to be loaded so that all dependencies are
@@ -30,6 +32,8 @@ JavaScript files that depend on each other. Having to manually understand that
 dependency graph based on the list of dependencies on a JSON file and how the
 files use, define, or re-define global variables from or for other files, and
 managing a module's internal state, can be quite of a headache.
+
+![JSON configuration skyrockets as soon as you start doing anything interesting in the frontend](./01-resourcemodule-config.png)
 
 Changes to the source code, moving lines in the same file, refactoring code to
 other and new files, adding new code that uses other files, removing code, ...
@@ -85,6 +89,8 @@ that:
 You can read some more details in the architecture design record [4. Use
 webpack][use-webpack] that we wrote when we discussed this in the team.
 
+![Sources with ES modules](./01-sources-with-esmodules.png)
+
 #### Why webpack and not `<my-favorite-tool>`?
 
 We looked at the ecosystem of bundlers at the time, and this is a summary of our
@@ -98,6 +104,8 @@ evaluation:
 
 We are not married to, or using any webpack specific features, so we can migrate
 from this tool in the future if it becomes a problem.
+
+![Webpack production build](./01-webpack-build.gif)
 
 ### Results
 
@@ -138,6 +146,10 @@ changes:
 * By using standard module systems, it enables us to use our sources in Node.js,
   which unlocks the possibility to run unit tests for the frontend code in
   Node.js for faster test runs and feedback loop for developers
+* Easy introspection of the frontend code with tools like
+  [source-map-explorer][] and [webpack-bundle-analyzer][]
+
+![source-map-explorer view](./01-source-map-explorer.png)
 
 ### Problems
 
@@ -200,3 +212,5 @@ their workflows and leverage powerful tools.
 [use-webpack]: https://github.com/wikimedia/mediawiki-extensions-Popups/blob/master/doc/adr/0004-use-webpack.md
 [webpack-config]: https://github.com/wikimedia/mediawiki-extensions-Popups/blob/2ddf8a96d8df27d6b5e8b4dd8ef33581951db9fe/webpack.config.js
 [webpack]: https://webpack.js.org/
+[source-map-explorer]: https://www.npmjs.com/package/source-map-explorer
+[webpack-bundle-analyzer]: https://www.npmjs.com/package/webpack-bundle-analyzer
