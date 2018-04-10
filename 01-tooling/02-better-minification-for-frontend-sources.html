@@ -478,8 +478,8 @@ as possible.</p>
 <p>Given we have introduced a build step previously, the solution seemed pretty
 straightforward.</p>
 <p>We discussed we would introduce a minification step as part of the build
-process, and then the commited assets in <code>/resources/dist</code> would be minified and
-as small as possible.</p>
+process, and then the committed assets in <code>/resources/dist</code> would be minified
+and as small as possible.</p>
 <p>We first did research and got numbers to check if there would actually be any
 gains and if it would be worth it. You can read about it here:</p>
 <ul>
@@ -487,6 +487,7 @@ gains and if it would be worth it. You can read about it here:</p>
 UglifyJS</a></li>
 <li><a href="https://www.mediawiki.org/wiki/Extension:Popups/Minifying_assets_with_uglifyjs">mediawiki.org: Extension:Popups/Minifying assets with uglifyjs</a></li>
 </ul>
+<p><img src="./02-comparison.png" alt="Table with comparison of sizes"></p>
 <p>Then researched how to best introduce the minifier. As a standalone CLI we could
 run it in our now single <code>index.js</code> file, but if we leveraged other bundler
 features like multiple entry points or code splitting then the minification
