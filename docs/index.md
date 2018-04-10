@@ -22,9 +22,5 @@ will provide reasoning, explanations, pros and cons, and our conclusions.
 * Code patterns
   1.  [Factory functions](./02-code-patterns-&-architecture/01-factory-functions.html)
 
-## Conclusions
-
-`TODO`
-
 [popups]: https://www.mediawiki.org/wiki/Extension:Popups
 [mediawiki]: https://www.mediawiki.org/wiki/MediaWiki
