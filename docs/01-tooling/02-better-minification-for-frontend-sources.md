@@ -26,8 +26,8 @@ Given we have introduced a build step previously, the solution seemed pretty
 straightforward.
 
 We discussed we would introduce a minification step as part of the build
-process, and then the commited assets in `/resources/dist` would be minified and
-as small as possible.
+process, and then the committed assets in `/resources/dist` would be minified
+and as small as possible.
 
 We first did research and got numbers to check if there would actually be any
 gains and if it would be worth it. You can read about it here:
@@ -35,6 +35,8 @@ gains and if it would be worth it. You can read about it here:
 * Architecture design record [8. Enable minification of bundle with
   UglifyJS][adr-8]
 * [mediawiki.org: Extension:Popups/Minifying assets with uglifyjs][mw-min]
+
+![Table with comparison of sizes](./02-comparison.png)
 
 Then researched how to best introduce the minifier. As a standalone CLI we could
 run it in our now single `index.js` file, but if we leveraged other bundler
